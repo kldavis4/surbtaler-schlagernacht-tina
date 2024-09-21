@@ -1,0 +1,17 @@
+{
+  "blocks": [
+    {
+      "name": "TEST",
+      "location": "TEST",
+      "_template": "sponsor"
+    },
+    {
+      "name": "Raiffeisen Surbtal/Wehntal",
+      "image": "/3f37421bd8efe3869929acdc4713d05ecf09228d-1992x311_png.png",
+      "level": "gold",
+      "location": "Lengnau AG",
+      "url": "https://www.raiffeisen.ch/surbtal-wehntal/de.html",
+      "_template": "sponsor"
+    }
+  ]
+}
