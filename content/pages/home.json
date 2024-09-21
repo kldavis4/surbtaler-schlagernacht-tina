@@ -1,4 +1,16 @@
 {
   "title": "Home",
-  "createdAt": "2024-09-21T11:41:11.503Z"
+  "createdAt": "2024-09-21T11:41:11.503Z",
+  "body": [
+    {
+      "src": "/banner.png",
+      "alt": "Banner",
+      "variant": "full",
+      "_template": "image"
+    },
+    {
+      "end": "2024-10-18T18:00:00.000Z",
+      "_template": "countdown"
+    }
+  ]
 }

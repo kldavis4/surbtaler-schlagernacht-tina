@@ -1,0 +1,14 @@
+---
+import client from "../../tina/__generated__/client"
+import {Page as ClientPage} from "./page"
+
+type Props = {
+	relativePath: string
+}
+
+const {relativePath} = Astro.props;
+
+const pageResponse = await client.queries.page({relativePath})
+---
+
+<ClientPage client:load {...pageResponse} />

@@ -1,6 +1,11 @@
 ---
 import BaseLayout from '../layouts/base.astro'
+import Page from '../components/page.astro'
 import client from "../../tina/__generated__/client"
+
+type Props = {
+	relativePath: string
+}
 
 export async function getStaticPaths() {
 	const pageConnection = await client.queries.pageConnection();
@@ -10,18 +15,24 @@ export async function getStaticPaths() {
 	return [...pages?.map(page => ({
 		params: {
 			slug: page?._sys.filename
+		},
+		props: {
+			relativePath: page?._sys.relativePath
 		}
 	})) ?? [], {
 		params: {
 			slug: undefined
+		},
+		props: {
+			relativePath: "home.json"
 		}
 	}];
 
 }
 
-const {slug} = Astro.params;
+const {relativePath} = Astro.props;
 ---
 
 <BaseLayout>
-	<h1>{slug}</h1>
+	<Page relativePath={relativePath} />
 </BaseLayout>

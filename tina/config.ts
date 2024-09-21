@@ -1,5 +1,48 @@
-import { defineConfig, Form, TinaCMS } from "tinacms";
+import { defineConfig, type Form, type TinaCMS, type Template } from "tinacms";
 import { sponsorBlock } from "./blocks/sponsor";
+
+const imageBlock: Template = {
+	label: "Bild",
+	name: "image",
+	fields: [
+		{
+			type: "image",
+			label: "Bild",
+			name: "src",
+			required: true,
+		},
+		{
+			type: "string",
+			label: "Beschreibung",
+			name: "alt",
+			required: true,
+		},
+		{
+			type: "string",
+			label: "Variante",
+			name: "variant",
+			options: [
+				{ value: "full", label: "Ganze Breite" },
+				{ value: "normal", label: "Normal" },
+			],
+		},
+	],
+};
+const countdownBlock: Template = {
+	label: "Countdown",
+	name: "countdown",
+	fields: [
+		{
+			type: "datetime",
+			label: "Ende",
+			name: "end",
+			required: true,
+			ui: {
+				timeFormat: "HH:mm",
+			},
+		},
+	],
+};
 
 // Your hosting provider likely exposes this as an environment variable
 const branch =
@@ -236,6 +279,9 @@ export default defineConfig({
 						}
 						return values;
 					},
+					router: ({ document, collection }) => {
+						return `/${document._sys.filename}`;
+					},
 				},
 				fields: [
 					{
@@ -253,12 +299,11 @@ export default defineConfig({
 						},
 					},
 					{
-						type: "string",
+						type: "object",
 						label: "Inhalt",
 						name: "body",
-						ui: {
-							component: "markdown",
-						},
+						list: true,
+						templates: [imageBlock, countdownBlock],
 					},
 				],
 			},
