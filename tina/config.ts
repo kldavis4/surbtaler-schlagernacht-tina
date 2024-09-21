@@ -1,4 +1,4 @@
-import { defineConfig } from "tinacms";
+import { defineConfig, Form, TinaCMS } from "tinacms";
 import { sponsorBlock } from "./blocks/sponsor";
 
 // Your hosting provider likely exposes this as an environment variable
@@ -103,6 +103,162 @@ export default defineConfig({
 						type: "string",
 						label: "Website",
 						name: "url",
+					},
+				],
+			},
+			{
+				name: "navigation",
+				label: "Navigation",
+				path: "content/navigation",
+				format: "json",
+				ui: {
+					allowedActions: {
+						create: false,
+						delete: false,
+					},
+				},
+				fields: [
+					{
+						type: "object",
+						list: true,
+						label: "Menüseiten",
+						name: "menuPages",
+						templates: [
+							{
+								name: "rootPage",
+								label: "Hauptseite",
+								ui: {
+									itemProps: (item) => {
+										console.log({ item });
+										if (item?.page) {
+											return {
+												label: item?.page
+													.replace("content/pages/", "")
+													.replace(".json", ""),
+											};
+										}
+										return {
+											label: item?.page,
+										};
+									},
+								},
+								fields: [
+									{
+										type: "reference",
+										name: "page",
+										label: "Seite",
+										collections: ["page"],
+									},
+								],
+							},
+							{
+								name: "rootWithSubPages",
+								label: "Hauptseite mit Unterseiten",
+								ui: {
+									itemProps: (item) => {
+										console.log({ item });
+										if (item?.page) {
+											return {
+												label: item?.page
+													.replace("content/pages/", "")
+													.replace(".json", ""),
+											};
+										}
+										return {
+											label: item?.page,
+										};
+									},
+								},
+								fields: [
+									{
+										type: "reference",
+										name: "page",
+										label: "Seite",
+										collections: ["page"],
+									},
+									{
+										type: "object",
+										label: "Unterseiten",
+										name: "subPages",
+										list: true,
+										ui: {
+											itemProps: (item) => {
+												console.log({ item });
+												if (item?.page) {
+													return {
+														label: item?.page
+															.replace("content/pages/", "")
+															.replace(".json", ""),
+													};
+												}
+												return {
+													label: item?.page,
+												};
+											},
+										},
+										fields: [
+											{
+												type: "reference",
+												name: "page",
+												label: "Seite",
+												collections: ["page"],
+											},
+										],
+									},
+								],
+							},
+						],
+					},
+				],
+			},
+			{
+				name: "page",
+				label: "Seiten",
+				path: "content/pages",
+				format: "json",
+				ui: {
+					filename: {
+						readonly: true,
+						slugify: (values) => {
+							return `${values?.title?.toLowerCase().replace(/ /g, "-")}`;
+						},
+					},
+					beforeSubmit: async ({
+						form,
+						cms,
+						values,
+					}: { form: Form; cms: TinaCMS; values: Record<string, unknown> }) => {
+						if (form.crudType === "create") {
+							return {
+								...values,
+								createdAt: new Date().toISOString(),
+							};
+						}
+						return values;
+					},
+				},
+				fields: [
+					{
+						type: "string",
+						label: "Titel",
+						name: "title",
+						required: true,
+					},
+					{
+						type: "datetime",
+						label: "Erstellt am",
+						name: "createdAt",
+						ui: {
+							component: "hidden",
+						},
+					},
+					{
+						type: "string",
+						label: "Inhalt",
+						name: "body",
+						ui: {
+							component: "markdown",
+						},
 					},
 				],
 			},

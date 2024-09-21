@@ -1,0 +1,21 @@
+---
+import Header from '../components/header.astro'
+
+type Props = {
+	title?: string
+}
+
+const {title = "Surbtaler Schlagernacht"} = Astro.props;
+---
+<html lang='de'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width' />
+    <link rel='icon' type='image/x-icon' href='/favicon.ico' />
+    <title>{title}</title>
+  </head>
+  <body>
+		<Header />
+    <slot />
+  </body>
+</html>

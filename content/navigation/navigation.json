@@ -1,0 +1,42 @@
+{
+  "menuPages": [
+    {
+      "page": "content/pages/home.json",
+      "_template": "rootPage"
+    },
+    {
+      "page": "content/pages/galerie.json",
+      "_template": "rootPage"
+    },
+    {
+      "page": "content/pages/sponsoren.json",
+      "subPages": [
+        {
+          "page": "content/pages/sponsor-werden.json"
+        }
+      ],
+      "_template": "rootWithSubPages"
+    },
+    {
+      "page": "content/pages/unser-ok.json",
+      "_template": "rootPage"
+    },
+    {
+      "page": "content/pages/feedback.json",
+      "_template": "rootPage"
+    },
+    {
+      "page": "content/pages/biergarten.json",
+      "_template": "rootPage"
+    },
+    {
+      "page": "content/pages/dj-gesucht.json",
+      "subPages": [
+        {
+          "page": "content/pages/mietmaterial.json"
+        }
+      ],
+      "_template": "rootWithSubPages"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+---
+import client from "../../tina/__generated__/client"
+const navigation = await client.queries.navigation({relativePath: "../../content/navigation/navigation.json"})
+
+const pages = navigation.data.navigation.menuPages?.map(n => {
+	if(n?.__typename === "NavigationMenuPagesRootPage") {
+		return {
+			href: `/${n?.page?._sys.filename}`,
+			title: n?.page?.title,
+			subPages: undefined,
+		}
+	}
+		return {
+			href: `/${n?.page?._sys.filename}`,
+			title: n?.page?.title,
+			subPages: n?.subPages?.map(sp => ({
+				href: `/${sp?.page?._sys.filename}`,
+				title: sp?.page?.title,
+			}))};
+	}) ?? [];
+
+---
+<header>
+	<nav>
+		<ul>
+			{pages?.map(page => (
+				<li>
+					<a href={page.href}>{page.title}</a>
+					{page.subPages ? (
+						<>
+							<ul>
+								{page.subPages.map(subPage => (
+									<li>
+										<a href={`/${subPage.href}`}>{subPage.title}</a>
+									</li>
+								))}
+							</ul>
+						</>
+					) : null}
+				</li>
+			))}
+		</ul>
+	</nav>
+</header>

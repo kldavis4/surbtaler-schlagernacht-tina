@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/base.astro'
+import client from "../../tina/__generated__/client"
+
+export async function getStaticPaths() {
+	const pageConnection = await client.queries.pageConnection();
+
+	const pages = pageConnection.data.pageConnection.edges?.map(n => n?.node);
+
+	return [...pages?.map(page => ({
+		params: {
+			slug: page?._sys.filename
+		}
+	})) ?? [], {
+		params: {
+			slug: undefined
+		}
+	}];
+
+}
+
+const {slug} = Astro.params;
+---
+
+<BaseLayout>
+	<h1>{slug}</h1>
+</BaseLayout>
